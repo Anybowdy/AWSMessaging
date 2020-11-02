@@ -1,0 +1,13 @@
+type Message @model @key(name: "byUser", fields: ["userID"]) {
+  id: ID!
+  text: String!
+  userID: ID!
+  user: String!
+}
+
+type User @model {
+  id: ID!
+  name: String!
+  avatar: String!
+  messages: [Message] @connection(keyName: "byUser", fields: ["id"])
+}
