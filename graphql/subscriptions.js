@@ -7,7 +7,16 @@ export const onCreateMessage = /* GraphQL */ `
       id
       text
       userID
-      user
+      user {
+        id
+        name
+        avatar
+        messages {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -19,7 +28,16 @@ export const onUpdateMessage = /* GraphQL */ `
       id
       text
       userID
-      user
+      user {
+        id
+        name
+        avatar
+        messages {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -31,7 +49,16 @@ export const onDeleteMessage = /* GraphQL */ `
       id
       text
       userID
-      user
+      user {
+        id
+        name
+        avatar
+        messages {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -48,7 +75,6 @@ export const onCreateUser = /* GraphQL */ `
           id
           text
           userID
-          user
           createdAt
           updatedAt
         }
@@ -70,7 +96,6 @@ export const onUpdateUser = /* GraphQL */ `
           id
           text
           userID
-          user
           createdAt
           updatedAt
         }
@@ -92,7 +117,6 @@ export const onDeleteUser = /* GraphQL */ `
           id
           text
           userID
-          user
           createdAt
           updatedAt
         }

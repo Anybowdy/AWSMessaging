@@ -3,13 +3,20 @@ import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import awsconfig from "./aws-exports";
+import MessageScreen from "./screens/MessageScreen";
 
 Amplify.configure();
 
 export default function App() {
-  return <View style={styles.container}></View>;
+  return (
+    <View style={styles.container}>
+      <MessageScreen />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
 });

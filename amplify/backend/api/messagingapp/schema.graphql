@@ -2,7 +2,7 @@ type Message @model @key(name: "byUser", fields: ["userID"]) {
   id: ID!
   text: String!
   userID: ID!
-  user: String!
+  user: User @connection(fields: ["userID"])
 }
 
 type User @model {

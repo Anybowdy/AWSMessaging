@@ -7,7 +7,16 @@ export const getMessage = /* GraphQL */ `
       id
       text
       userID
-      user
+      user {
+        id
+        name
+        avatar
+        messages {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -24,7 +33,13 @@ export const listMessages = /* GraphQL */ `
         id
         text
         userID
-        user
+        user {
+          id
+          name
+          avatar
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -43,7 +58,6 @@ export const getUser = /* GraphQL */ `
           id
           text
           userID
-          user
           createdAt
           updatedAt
         }
