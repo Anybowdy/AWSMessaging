@@ -5,7 +5,7 @@ import Amplify, { API, graphqlOperation } from "aws-amplify";
 import awsconfig from "./aws-exports";
 import MessageScreen from "./screens/MessageScreen";
 
-Amplify.configure();
+Amplify.configure(awsconfig);
 
 export default function App() {
   return (

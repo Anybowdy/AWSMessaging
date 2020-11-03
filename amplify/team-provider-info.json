@@ -10,6 +10,11 @@
       "StackName": "amplify-messagingapp-dev-234855",
       "StackId": "arn:aws:cloudformation:eu-west-2:782108299036:stack/amplify-messagingapp-dev-234855/97789c00-1d5d-11eb-9bee-0aabefb3624a",
       "AmplifyAppId": "d3c62tbxtkw6fz"
+    },
+    "categories": {
+      "auth": {
+        "messagingapp35932cfa": {}
+      }
     }
   }
 }

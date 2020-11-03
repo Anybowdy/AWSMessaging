@@ -16,5 +16,13 @@
         }
       }
     }
+  },
+  "auth": {
+    "messagingapp35932cfa": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
   }
 }

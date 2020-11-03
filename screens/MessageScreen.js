@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 
 import * as mutations from "../graphql/mutations";
+import * as queries from "../graphql/queries";
 
 var uuid = require("react-native-uuid");
 
@@ -41,7 +42,22 @@ const MessageScreen = () => {
       .catch((error) => console.log(error));
   }
 
+  async function getMessages() {
+    await API.graphql(graphqlOperation(queries.listMessages), { filter: id })
+      .then((response) => {
+        setMessages((previousMessages) =>
+          GiftedChat.append(previousMessages, response.data.listMessages.items)
+        );
+      })
+      .catch((error) => console.log(error));
+  }
+
+  useEffect(() => {
+    getMessages();
+  }, []);
+
   const onSend = useCallback((messages = []) => {
+    createMessage();
     setMessages((previousMessages) =>
       GiftedChat.append(previousMessages, messages)
     );
