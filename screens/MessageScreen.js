@@ -1,6 +1,12 @@
 import { API, graphqlOperation } from "aws-amplify";
 import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { GiftedChat, InputToolbar, Composer } from "react-native-gifted-chat";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -8,49 +14,20 @@ import { AntDesign } from "@expo/vector-icons";
 import * as mutations from "../graphql/mutations";
 import * as queries from "../graphql/queries";
 
+import APIManager from "../api/API";
+
 const MessageScreen = ({ navigation }) => {
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
 
-  const navBar = (
+  const ChatNavigationBar = (
     <View style={styles.navBar}>
-      <Text style={styles.title}>Messenger 2.0 ⚡</Text>
-    </View>
-  );
-
-  const test = (
-    <View
-      style={{
-        backgroundColor: "white",
-        height: 100,
-        width: "100%",
-        shadowColor: "black",
-        shadowOpacity: 0.5,
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        elevation: 5,
-        alignItems: "center",
-        flexDirection: "column-reverse",
-        paddingBottom: 10,
-      }}
-    >
-      <View
-        style={{
-          position: "absolute",
-          height: 30,
-          width: 30,
-          left: 10,
-          bottom: 10,
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#6b17d8",
-          borderRadius: 15,
-        }}
+      <TouchableOpacity
+        style={styles.goBackButton}
+        onPress={() => navigation.goBack()}
       >
         <AntDesign name="arrowleft" size={20} color="white" />
-      </View>
+      </TouchableOpacity>
       <Text style={styles.title}>Messenger 2.0 ⚡</Text>
     </View>
   );
@@ -70,31 +47,23 @@ const MessageScreen = ({ navigation }) => {
     ]);
   }, []);
 
-  async function createMessage(messageText) {
-    let newMessage = {
-      //id: uuid.v4(),
-      id: 2,
-      text: messageText,
-      userID: 1,
-    };
-
-    await API.graphql(
-      graphqlOperation(mutations.createMessage, { input: newMessage })
-    )
-      .then(() => {
-        console.log("success");
-      })
-      .catch((error) => console.log(error));
-  }
+  const createMessage = (messageText) => {
+    try {
+      let response = APIManager.createMessage(messageText, "username");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   async function getMessages() {
-    await API.graphql(graphqlOperation(queries.listMessages))
-      .then((response) => {
-        setMessages((previousMessages) =>
-          GiftedChat.append(previousMessages, response.data.listMessages.items)
-        );
-      })
-      .catch((error) => console.log(error));
+    try {
+      let messages = APIManager.listMessages();
+      setMessages((previousMessages) =>
+        GiftedChat.append(previousMessages, messages)
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -111,7 +80,7 @@ const MessageScreen = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      {test}
+      {ChatNavigationBar}
       <GiftedChat
         messages={messages}
         alwaysShowSend
@@ -129,7 +98,6 @@ export default MessageScreen;
 const styles = StyleSheet.create({
   navBar: {
     backgroundColor: "white",
-
     height: 100,
     width: "100%",
     shadowColor: "black",
@@ -140,11 +108,23 @@ const styles = StyleSheet.create({
     },
     elevation: 5,
     alignItems: "center",
+    paddingBottom: 10,
     flexDirection: "column-reverse",
+  },
+  goBackButton: {
+    position: "absolute",
+    height: 30,
+    width: 30,
+    left: 15,
+    bottom: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#6b17d8",
+    borderRadius: 15,
   },
   title: {
     color: "#6b17d8",
-    fontSize: 25,
+    fontSize: 23,
     fontWeight: "600",
   },
 });
