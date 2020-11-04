@@ -44,7 +44,10 @@ const LandingPage = ({ navigation }) => {
               >
                 <Text style={styles.usernameText}>Your username</Text>
                 <TextInput style={styles.textInput}></TextInput>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate("MessageScreen")}
+                >
                   <AntDesign name="arrowright" size={35} color="white" />
                 </TouchableOpacity>
               </View>
