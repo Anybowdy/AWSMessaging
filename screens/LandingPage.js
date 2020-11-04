@@ -12,57 +12,62 @@ import {
   TouchableHighlight,
 } from "react-native";
 
+import { AntDesign } from "@expo/vector-icons";
+
 const LandingPage = () => {
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <TouchableWithoutFeedback
-        style={{ flex: 1 }}
-        onPress={() => Keyboard.dismiss()}
-      >
-        <>
-          <View
-            style={{
-              alignItems: "center",
-              position: "absolute",
-              left: 0,
-              right: 0,
-              top: "10%",
-            }}
-          >
-            <Image
-              source={require("../assets/speech-bubble.png")}
-              style={{ width: 100, height: 100 }}
-            />
-          </View>
-          <View style={styles.container}>
+    <View style={{ flex: 1, backgroundColor: "#f0efff" }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <TouchableWithoutFeedback
+          style={{ flex: 1 }}
+          onPress={() => Keyboard.dismiss()}
+        >
+          <>
             <View
               style={{
-                width: "100%",
+                alignItems: "center",
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: "10%",
               }}
             >
+              <Image
+                source={require("../assets/speech-bubble.png")}
+                style={{ width: 100, height: 100, marginBottom: 10 }}
+              />
               <Text
+                style={{ fontSize: 25, fontWeight: "600", color: "#494949" }}
+              >
+                Just chat
+              </Text>
+            </View>
+            <View style={styles.container}>
+              <View
                 style={{
-                  fontSize: 20,
-                  fontWeight: "600",
-                  marginVertical: 10,
-                  color: "gray",
+                  width: "100%",
                 }}
               >
-                Username:
-              </Text>
-              <TextInput style={styles.textInput}></TextInput>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: "#6b17d8",
-                  height: 60,
-                  borderRadius: 10,
-                }}
-              ></TouchableOpacity>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: "600",
+                    color: "gray",
+                    marginBottom: 8,
+                  }}
+                >
+                  Your username
+                </Text>
+                <TextInput style={styles.textInput}></TextInput>
+                <TouchableOpacity style={styles.button}>
+                  <AntDesign name="arrowright" size={35} color="white" />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </>
-      </TouchableWithoutFeedback>
-    </ScrollView>
+          </>
+        </TouchableWithoutFeedback>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -76,10 +81,20 @@ const styles = StyleSheet.create({
     marginHorizontal: "8%",
   },
   textInput: {
-    height: 50,
-    borderWidth: 0.3,
+    height: 55,
+    borderWidth: 1,
     borderRadius: 10,
-    borderEndColor: "gray",
-    marginVertical: 20,
+    borderColor: "#fff3ef",
+    backgroundColor: "white",
+    marginBottom: 20,
+    textAlign: "center",
+    fontSize: 20,
+  },
+  button: {
+    backgroundColor: "#6b17d8",
+    height: 55,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
