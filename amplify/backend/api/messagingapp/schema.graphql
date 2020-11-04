@@ -1,13 +1,5 @@
-type Message @model @key(name: "byUser", fields: ["userID"]) {
+type Message @model {
   id: ID!
   text: String!
-  userID: ID!
-  user: User @connection(fields: ["userID"])
-}
-
-type User @model {
-  id: ID!
-  name: String!
-  avatar: String!
-  messages: [Message] @connection(keyName: "byUser", fields: ["id"])
+  username: String!
 }

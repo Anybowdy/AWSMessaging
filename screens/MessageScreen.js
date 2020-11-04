@@ -1,15 +1,14 @@
 import { API, graphqlOperation } from "aws-amplify";
 import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { GiftedChat } from "react-native-gifted-chat";
+import { StyleSheet, Text, View, TextInput } from "react-native";
+import { GiftedChat, InputToolbar, Composer } from "react-native-gifted-chat";
 
 import * as mutations from "../graphql/mutations";
 import * as queries from "../graphql/queries";
 
-var uuid = require("react-native-uuid");
-
 const MessageScreen = () => {
   const [messages, setMessages] = useState([]);
+  const [currentMessage, setCurrentMessage] = useState("");
 
   useEffect(() => {
     setMessages([
@@ -26,10 +25,11 @@ const MessageScreen = () => {
     ]);
   }, []);
 
-  async function createMessage() {
+  async function createMessage(messageText) {
     let newMessage = {
-      id: uuid.v1(),
-      text: "Hello you",
+      //id: uuid.v4(),
+      id: 2,
+      text: messageText,
       userID: 1,
     };
 
@@ -43,7 +43,7 @@ const MessageScreen = () => {
   }
 
   async function getMessages() {
-    await API.graphql(graphqlOperation(queries.listMessages), { filter: id })
+    await API.graphql(graphqlOperation(queries.listMessages))
       .then((response) => {
         setMessages((previousMessages) =>
           GiftedChat.append(previousMessages, response.data.listMessages.items)
@@ -53,11 +53,12 @@ const MessageScreen = () => {
   }
 
   useEffect(() => {
-    getMessages();
+    //getMessages();
+    console.log("printed");
   }, []);
 
   const onSend = useCallback((messages = []) => {
-    createMessage();
+    //createMessage();
     setMessages((previousMessages) =>
       GiftedChat.append(previousMessages, messages)
     );
@@ -66,8 +67,7 @@ const MessageScreen = () => {
   return (
     <GiftedChat
       messages={messages}
-      isTyping={true}
-      alwaysShowSend={true}
+      alwaysShowSend
       onSend={(messages) => onSend(messages)}
       user={{
         _id: 1,
