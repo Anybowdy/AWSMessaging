@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,7 +14,9 @@ import {
 
 import { AntDesign } from "@expo/vector-icons";
 
-const LandingPage = () => {
+const LandingPage = ({ navigation }) => {
+  const [username, setUsername] = useState("");
+
   return (
     <View style={{ flex: 1, backgroundColor: "#f0efff" }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -23,15 +25,7 @@ const LandingPage = () => {
           onPress={() => Keyboard.dismiss()}
         >
           <>
-            <View
-              style={{
-                alignItems: "center",
-                position: "absolute",
-                left: 0,
-                right: 0,
-                top: "10%",
-              }}
-            >
+            <View style={styles.logoView}>
               <Image
                 source={require("../assets/speech-bubble.png")}
                 style={{ width: 100, height: 100, marginBottom: 10 }}
@@ -48,16 +42,7 @@ const LandingPage = () => {
                   width: "100%",
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "600",
-                    color: "gray",
-                    marginBottom: 8,
-                  }}
-                >
-                  Your username
-                </Text>
+                <Text style={styles.usernameText}>Your username</Text>
                 <TextInput style={styles.textInput}></TextInput>
                 <TouchableOpacity style={styles.button}>
                   <AntDesign name="arrowright" size={35} color="white" />
@@ -80,6 +65,13 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     marginHorizontal: "8%",
   },
+  logoView: {
+    alignItems: "center",
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: "10%",
+  },
   textInput: {
     height: 55,
     borderWidth: 1,
@@ -96,5 +88,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  usernameText: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "gray",
+    marginBottom: 8,
   },
 });

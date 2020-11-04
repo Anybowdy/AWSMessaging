@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+import "react-native-gesture-handler";
 import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Amplify, { API, graphqlOperation } from "aws-amplify";
@@ -6,7 +6,12 @@ import awsconfig from "./aws-exports";
 import MessageScreen from "./screens/MessageScreen";
 import LandingPage from "./screens/LandingPage";
 
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
 Amplify.configure(awsconfig);
+
+const Stack = createStackNavigator();
 
 export default function App() {
   const navBar = (
@@ -16,9 +21,16 @@ export default function App() {
   );
 
   return (
-    <View style={styles.container}>
-      <LandingPage />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="LandingPage"
+          options={{ headerShown: false }}
+          component={LandingPage}
+        />
+        <Stack.Screen name="Messages" component={MessageScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

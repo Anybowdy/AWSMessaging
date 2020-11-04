@@ -6,7 +6,7 @@ import { GiftedChat, InputToolbar, Composer } from "react-native-gifted-chat";
 import * as mutations from "../graphql/mutations";
 import * as queries from "../graphql/queries";
 
-const MessageScreen = () => {
+const MessageScreen = ({ navigation }) => {
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
 
