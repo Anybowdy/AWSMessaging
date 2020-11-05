@@ -68,16 +68,17 @@ const MessageScreen = ({ navigation, route }) => {
     // );
   }, []);
 
-  const Chat = (
-    <GiftedChat
-      messages={messages}
-      alwaysShowSend
-      user={user}
-      onSend={(messages) => onSend(messages)}
-    />
+  return (
+    <View style={{ flex: 1 }}>
+      {ChatNavigationBar}
+      <GiftedChat
+        messages={messages}
+        alwaysShowSend
+        user={user}
+        onSend={(messages) => onSend(messages)}
+      />
+    </View>
   );
-
-  return <View style={{ flex: 1 }}>{ChatNavigationBar}</View>;
 };
 
 export default MessageScreen;
