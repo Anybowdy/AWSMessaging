@@ -19,10 +19,10 @@ const LandingPage = ({ navigation }) => {
   const [username, setUsername] = useState("");
 
   const onPress = async () => {
+    //await LocalStorage.removeUser();
     await LocalStorage.storeUser(username);
     const currentUser = await LocalStorage.getUser();
-    console.log(currentUser);
-    //navigation.navigate("MessageScreen", { user: currentUser });
+    navigation.navigate("MessageScreen", { user: currentUser });
   };
 
   const dismissKeyboard = () => Keyboard.dismiss();

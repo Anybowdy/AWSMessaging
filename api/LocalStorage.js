@@ -9,11 +9,9 @@ const removeUser = async () => {
 const storeUser = async (username) => {
   try {
     let storedUser = await getUser();
-
     let userId = guid();
 
     if (storedUser != null) {
-      console.log("null stored user first");
       userId = storedUser.userId;
     }
 
@@ -24,7 +22,6 @@ const storeUser = async (username) => {
 
     await AsyncStorage.setItem(userKey, JSON.stringify(valueToStore));
     console.log("User stored");
-    console.log(storedUser);
   } catch (error) {
     console.log("error while storing username: ", error);
   }

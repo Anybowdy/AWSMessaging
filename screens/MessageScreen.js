@@ -16,13 +16,11 @@ import Message from "../models/Message";
 
 const MessageScreen = ({ navigation, route }) => {
   const [messages, setMessages] = useState([]);
-  const [user, setUser] = useState("");
-
-  //const user = route.params;
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    console.log(route.params);
-    setUsername("loilol");
+    console.log(route.params.user);
+    //setUser(route.params.user);
   }, []);
 
   const ChatNavigationBar = (
@@ -74,15 +72,19 @@ const MessageScreen = ({ navigation, route }) => {
     // );
   }, []);
 
+  const Chat = (
+    <GiftedChat
+      messages={messages}
+      user={{ _id: 1, name: user != null ? user.username : "random" }}
+      alwaysShowSend
+      onSend={(messages) => onSend(messages)}
+    />
+  );
+
   return (
     <View style={{ flex: 1 }}>
       {ChatNavigationBar}
-      <GiftedChat
-        messages={messages}
-        user={{ _id: 1, name: username }}
-        alwaysShowSend
-        onSend={(messages) => onSend(messages)}
-      />
+      {user == null ? <View></View> : <Chat />}
     </View>
   );
 };
