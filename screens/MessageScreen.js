@@ -38,7 +38,6 @@ const MessageScreen = ({ navigation, route }) => {
 
   const createMessage = async (id, messageText) => {
     try {
-      //let user = new User(user._id, user.username);
       let messageToCreate = new Message(id, messageText, user);
       let response = await APIManager.createMessage(messageToCreate);
       console.log("Message created");

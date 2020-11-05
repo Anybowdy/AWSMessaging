@@ -9,3 +9,5 @@ class Message {
     this.user = user;
   }
 }
+
+export default Message;
