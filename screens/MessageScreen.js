@@ -16,12 +16,13 @@ import Message from "../models/Message";
 
 const MessageScreen = ({ navigation, route }) => {
   const [messages, setMessages] = useState([]);
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    console.log(route.params.user);
-    //setUser(route.params.user);
-  }, []);
+  const [user, setUser] = useState({
+    _id: route.params.user.userId,
+    name: route.params.user.username,
+  });
+
+  useEffect(() => {}, []);
 
   const ChatNavigationBar = (
     <View style={styles.navBar}>
@@ -37,7 +38,7 @@ const MessageScreen = ({ navigation, route }) => {
 
   const createMessage = async (id, messageText) => {
     try {
-      let user = new User(username, username);
+      //let user = new User(user._id, user.username);
       let messageToCreate = new Message(id, messageText, user);
       let response = await APIManager.createMessage(messageToCreate);
       console.log("Message created");
@@ -58,11 +59,6 @@ const MessageScreen = ({ navigation, route }) => {
     }
   }
 
-  useEffect(() => {
-    //getMessages();
-    console.log("printed");
-  }, []);
-
   const onSend = useCallback((messages = []) => {
     let id = messages[0]._id;
     let text = messages[0].text;
@@ -75,18 +71,13 @@ const MessageScreen = ({ navigation, route }) => {
   const Chat = (
     <GiftedChat
       messages={messages}
-      user={{ _id: 1, name: user != null ? user.username : "random" }}
       alwaysShowSend
+      user={user}
       onSend={(messages) => onSend(messages)}
     />
   );
 
-  return (
-    <View style={{ flex: 1 }}>
-      {ChatNavigationBar}
-      {user == null ? <View></View> : <Chat />}
-    </View>
-  );
+  return <View style={{ flex: 1 }}>{ChatNavigationBar}</View>;
 };
 
 export default MessageScreen;
