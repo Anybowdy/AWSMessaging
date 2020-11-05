@@ -21,19 +21,19 @@ const LandingPage = ({ navigation }) => {
   const onPress = async () => {
     await LocalStorage.storeUser(username);
 
-    const currentUsername = await LocalStorage.getUser();
-    navigation.navigate("MessageScreen", { username: currentUsername });
+    const currentUser = await LocalStorage.getUser();
+    console.log(currentUser);
+    //navigation.navigate("MessageScreen", { user: currentUser });
   };
-
-  useEffect(() => {
-    console.log(username);
-  }, [username]);
 
   const dismissKeyboard = () => Keyboard.dismiss();
 
   return (
     <View style={{ flex: 1, backgroundColor: "#f0efff" }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
         <TouchableWithoutFeedback style={{ flex: 1 }} onPress={dismissKeyboard}>
           <>
             <View style={styles.logoView}>

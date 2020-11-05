@@ -1,18 +1,23 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-var uuid = require("react-native-uuid");
-
 const userKey = "user";
+
+const removeUser = async () => {
+  await AsyncStorage.removeItem(userKey);
+};
 
 const storeUser = async (username) => {
   try {
-    let storedUser = getUser();
-    const userId = storedUser.userId;
-    if (storedUser == null) {
-      userId = uuid.v1();
+    let storedUser = await getUser();
+
+    console.log(storedUser);
+    let userId = guid();
+
+    if (storedUser != null) {
+      userId = storedUser.userId;
     }
     const valueToStore = {
-      userId: newUserId,
+      userId: userId,
       username: username,
     };
     await AsyncStorage.setItem(userKey, JSON.stringify(valueToStore));
@@ -32,4 +37,26 @@ const getUser = async () => {
   }
 };
 
-export default { storeUsername, getUsername };
+let guid = () => {
+  let s4 = () => {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  };
+  return (
+    s4() +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    s4() +
+    s4()
+  );
+};
+
+export default { storeUser, getUser, removeUser };
