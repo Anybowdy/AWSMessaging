@@ -14,12 +14,14 @@ import APIManager from "../api/API";
 import User from "../models/User";
 import Message from "../models/Message";
 
-const MessageScreen = ({ navigation, params }) => {
+const MessageScreen = ({ navigation, route }) => {
   const [messages, setMessages] = useState([]);
-  const [username, setUsername] = useState("");
+  const [user, setUser] = useState("");
+
+  //const user = route.params;
 
   useEffect(() => {
-    console.log(params);
+    console.log(route.params);
     setUsername("loilol");
   }, []);
 
@@ -59,7 +61,7 @@ const MessageScreen = ({ navigation, params }) => {
   }
 
   useEffect(() => {
-    getMessages();
+    //getMessages();
     console.log("printed");
   }, []);
 
