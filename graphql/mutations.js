@@ -8,8 +8,16 @@ export const createMessage = /* GraphQL */ `
   ) {
     createMessage(input: $input, condition: $condition) {
       id
+      _id
       text
-      username
+      user {
+        id
+        _id
+        name
+        avatar
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -22,8 +30,16 @@ export const updateMessage = /* GraphQL */ `
   ) {
     updateMessage(input: $input, condition: $condition) {
       id
+      _id
       text
-      username
+      user {
+        id
+        _id
+        name
+        avatar
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -36,8 +52,61 @@ export const deleteMessage = /* GraphQL */ `
   ) {
     deleteMessage(input: $input, condition: $condition) {
       id
+      _id
       text
-      username
+      user {
+        id
+        _id
+        name
+        avatar
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    createUser(input: $input, condition: $condition) {
+      id
+      _id
+      name
+      avatar
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    updateUser(input: $input, condition: $condition) {
+      id
+      _id
+      name
+      avatar
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    deleteUser(input: $input, condition: $condition) {
+      id
+      _id
+      name
+      avatar
       createdAt
       updatedAt
     }

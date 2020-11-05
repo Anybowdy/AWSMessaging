@@ -1,5 +1,11 @@
 type Message @model {
-  id: ID!
+  _id: ID!
   text: String!
-  username: String!
+  user: User!
+}
+
+type User @model {
+  _id: ID!
+  name: String!
+  avatar: String
 }

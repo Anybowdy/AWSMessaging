@@ -1,4 +1,3 @@
-import { API, graphqlOperation } from "aws-amplify";
 import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
@@ -8,17 +7,21 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { GiftedChat, InputToolbar, Composer } from "react-native-gifted-chat";
-
 import { AntDesign } from "@expo/vector-icons";
-
-import * as mutations from "../graphql/mutations";
-import * as queries from "../graphql/queries";
-
+import LocalStorage from "../api/LocalStorage";
 import APIManager from "../api/API";
 
-const MessageScreen = ({ navigation }) => {
+import User from "../models/User";
+import Message from "../models/Message";
+
+const MessageScreen = ({ navigation, params }) => {
   const [messages, setMessages] = useState([]);
-  const [currentMessage, setCurrentMessage] = useState("");
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    console.log(params);
+    setUsername("loilol");
+  }, []);
 
   const ChatNavigationBar = (
     <View style={styles.navBar}>
@@ -32,32 +35,21 @@ const MessageScreen = ({ navigation }) => {
     </View>
   );
 
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
-        },
-      },
-    ]);
-  }, []);
-
-  const createMessage = (messageText) => {
+  const createMessage = async (id, messageText) => {
     try {
-      let response = APIManager.createMessage(messageText, "username");
+      let user = new User(username, username);
+      let messageToCreate = new Message(id, messageText, user);
+      let response = await APIManager.createMessage(messageToCreate);
+      console.log("Message created");
     } catch (error) {
-      console.log(error);
+      console.log("Error while creating message ", error);
     }
   };
 
   async function getMessages() {
     try {
-      let messages = APIManager.listMessages();
+      let { data } = await APIManager.getMessages();
+      let messages = data.listMessages.items;
       setMessages((previousMessages) =>
         GiftedChat.append(previousMessages, messages)
       );
@@ -67,15 +59,17 @@ const MessageScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
-    //getMessages();
+    getMessages();
     console.log("printed");
   }, []);
 
   const onSend = useCallback((messages = []) => {
-    //createMessage();
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages)
-    );
+    let id = messages[0]._id;
+    let text = messages[0].text;
+    createMessage(id, text);
+    // setMessages((previousMessages) =>
+    //   GiftedChat.append(previousMessages, messages)
+    // );
   }, []);
 
   return (
@@ -83,11 +77,9 @@ const MessageScreen = ({ navigation }) => {
       {ChatNavigationBar}
       <GiftedChat
         messages={messages}
+        user={{ _id: 1, name: username }}
         alwaysShowSend
         onSend={(messages) => onSend(messages)}
-        user={{
-          _id: 1,
-        }}
       />
     </View>
   );

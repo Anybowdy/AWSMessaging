@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,18 +12,29 @@ import {
   TouchableHighlight,
 } from "react-native";
 
+import LocalStorage from "../api/LocalStorage";
 import { AntDesign } from "@expo/vector-icons";
 
 const LandingPage = ({ navigation }) => {
   const [username, setUsername] = useState("");
 
+  const onPress = async () => {
+    await LocalStorage.storeUser(username);
+
+    const currentUsername = await LocalStorage.getUser();
+    navigation.navigate("MessageScreen", { username: currentUsername });
+  };
+
+  useEffect(() => {
+    console.log(username);
+  }, [username]);
+
+  const dismissKeyboard = () => Keyboard.dismiss();
+
   return (
     <View style={{ flex: 1, backgroundColor: "#f0efff" }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <TouchableWithoutFeedback
-          style={{ flex: 1 }}
-          onPress={() => Keyboard.dismiss()}
-        >
+        <TouchableWithoutFeedback style={{ flex: 1 }} onPress={dismissKeyboard}>
           <>
             <View style={styles.logoView}>
               <Image
@@ -43,11 +54,11 @@ const LandingPage = ({ navigation }) => {
                 }}
               >
                 <Text style={styles.usernameText}>Your username</Text>
-                <TextInput style={styles.textInput}></TextInput>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => navigation.navigate("MessageScreen")}
-                >
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={(text) => setUsername(text)}
+                ></TextInput>
+                <TouchableOpacity style={styles.button} onPress={onPress}>
                   <AntDesign name="arrowright" size={35} color="white" />
                 </TouchableOpacity>
               </View>
