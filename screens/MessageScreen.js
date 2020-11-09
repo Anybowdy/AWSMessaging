@@ -1,36 +1,30 @@
-import React, { useState, useEffect, useCallback } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
-import { GiftedChat, InputToolbar, Composer } from "react-native-gifted-chat";
-import { AntDesign } from "@expo/vector-icons";
-import LocalStorage from "../api/LocalStorage";
-import APIManager from "../api/API";
+import React, { useState, useEffect, useCallback } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { GiftedChat, InputToolbar, Composer } from 'react-native-gifted-chat';
+import { AntDesign } from '@expo/vector-icons';
+import LocalStorage from '../api/LocalStorage';
+import APIManager from '../api/API';
 
-import User from "../models/User";
-import Message from "../models/Message";
+import User from '../models/User';
+import Message from '../models/Message';
 
 const MessageScreen = ({ navigation, route }) => {
   const [messages, setMessages] = useState([]);
 
-  const [user, setUser] = useState({
+  const user = {
     _id: route.params.user.userId,
     name: route.params.user.username,
-  });
+  };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(user);
+    getMessages();
+  }, []);
 
   const ChatNavigationBar = (
     <View style={styles.navBar}>
-      <TouchableOpacity
-        style={styles.goBackButton}
-        onPress={() => navigation.goBack()}
-      >
-        <AntDesign name="arrowleft" size={20} color="white" />
+      <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
+        <AntDesign name='arrowleft' size={20} color='white' />
       </TouchableOpacity>
       <Text style={styles.title}>Messenger 2.0 ⚡</Text>
     </View>
@@ -39,10 +33,15 @@ const MessageScreen = ({ navigation, route }) => {
   const createMessage = async (id, messageText) => {
     try {
       let messageToCreate = new Message(id, messageText, user);
-      let response = await APIManager.createMessage(messageToCreate);
-      console.log("Message created");
+      let { data } = await APIManager.createMessage(messageToCreate);
+      console.log(
+        'Message created - id:',
+        data.createMessage._id,
+        ' from ',
+        data.createMessage.user.name
+      );
     } catch (error) {
-      console.log("Error while creating message ", error);
+      console.log('Error while creating message ', error);
     }
   };
 
@@ -50,9 +49,7 @@ const MessageScreen = ({ navigation, route }) => {
     try {
       let { data } = await APIManager.getMessages();
       let messages = data.listMessages.items;
-      setMessages((previousMessages) =>
-        GiftedChat.append(previousMessages, messages)
-      );
+      setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
     } catch (error) {
       console.log(error);
     }
@@ -62,9 +59,7 @@ const MessageScreen = ({ navigation, route }) => {
     let id = messages[0]._id;
     let text = messages[0].text;
     createMessage(id, text);
-    // setMessages((previousMessages) =>
-    //   GiftedChat.append(previousMessages, messages)
-    // );
+    setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
   }, []);
 
   return (
@@ -72,7 +67,8 @@ const MessageScreen = ({ navigation, route }) => {
       {ChatNavigationBar}
       <GiftedChat
         messages={messages}
-        alwaysShowSend
+        alwaysShowSend={true}
+        renderUsernameOnMessage
         user={user}
         onSend={(messages) => onSend(messages)}
       />
@@ -84,34 +80,34 @@ export default MessageScreen;
 
 const styles = StyleSheet.create({
   navBar: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     height: 100,
-    width: "100%",
-    shadowColor: "black",
+    width: '100%',
+    shadowColor: 'black',
     shadowOpacity: 0.5,
     shadowOffset: {
       width: 0,
       height: 2,
     },
     elevation: 5,
-    alignItems: "center",
+    alignItems: 'center',
     paddingBottom: 10,
-    flexDirection: "column-reverse",
+    flexDirection: 'column-reverse',
   },
   goBackButton: {
-    position: "absolute",
+    position: 'absolute',
     height: 30,
     width: 30,
     left: 15,
     bottom: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#6b17d8",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#6b17d8',
     borderRadius: 15,
   },
   title: {
-    color: "#6b17d8",
+    color: '#6b17d8',
     fontSize: 23,
-    fontWeight: "600",
+    fontWeight: '600',
   },
 });

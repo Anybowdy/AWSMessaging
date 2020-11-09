@@ -8,12 +8,9 @@ export const onCreateMessage = /* GraphQL */ `
       _id
       text
       user {
-        id
         _id
         name
         avatar
-        createdAt
-        updatedAt
       }
       createdAt
       updatedAt
@@ -27,12 +24,9 @@ export const onUpdateMessage = /* GraphQL */ `
       _id
       text
       user {
-        id
         _id
         name
         avatar
-        createdAt
-        updatedAt
       }
       createdAt
       updatedAt
@@ -46,49 +40,10 @@ export const onDeleteMessage = /* GraphQL */ `
       _id
       text
       user {
-        id
         _id
         name
         avatar
-        createdAt
-        updatedAt
       }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser {
-    onCreateUser {
-      id
-      _id
-      name
-      avatar
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser {
-    onUpdateUser {
-      id
-      _id
-      name
-      avatar
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser {
-    onDeleteUser {
-      id
-      _id
-      name
-      avatar
       createdAt
       updatedAt
     }

@@ -4,7 +4,7 @@ type Message @model {
   user: User!
 }
 
-type User @model {
+type User {
   _id: ID!
   name: String!
   avatar: String
